@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.Web", "Swimmer.Web\Swimmer.Web.csproj", "{F79E81EF-4ED3-4EDD-955E-132F6D12C4CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F79E81EF-4ED3-4EDD-955E-132F6D12C4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79E81EF-4ED3-4EDD-955E-132F6D12C4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79E81EF-4ED3-4EDD-955E-132F6D12C4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79E81EF-4ED3-4EDD-955E-132F6D12C4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
