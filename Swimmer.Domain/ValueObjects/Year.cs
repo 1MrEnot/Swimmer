@@ -34,4 +34,9 @@ public readonly record struct Year : IComparable<Year>
     {
         return _year.CompareTo(other._year);
     }
+
+    public override string ToString()
+    {
+        return _year.ToString();
+    }
 }

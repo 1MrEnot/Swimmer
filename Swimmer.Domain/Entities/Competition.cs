@@ -1,8 +1,10 @@
 ﻿namespace Swimmer.Domain.Entities;
 
+using ValueObjects;
+
 public class Competition
 {
-    private readonly Dictionary<int, Athlete> _athletes;
+    private readonly Dictionary<Name, Athlete> _athletes;
     private readonly List<Swim> _swims;
 
     public Competition()
@@ -13,19 +15,23 @@ public class Competition
 
     public IReadOnlyList<Swim> Swims => _swims;
 
-    public IReadOnlyDictionary<int, Athlete> Athletes => _athletes;
+    public IReadOnlyDictionary<Name, Athlete> Athletes => _athletes;
 
-    public void AddAthlete(Athlete athlete)
+    public void AddAthleteIfNotExist(Athlete athlete)
     {
-        if (_athletes.ContainsKey(athlete.Id))
+        if (_athletes.ContainsKey(athlete.Name))
             return;
 
-        _athletes[athlete.Id] = athlete;
+        _athletes[athlete.Name] = athlete;
     }
 
-    public void AddSwim(Gender gender, string distanceName)
+    public Swim CreateSwim(Gender gender, string distanceName, int? index)
     {
-        var swim = new Swim(gender, distanceName, _swims.Count);
+        var swim = new Swim(gender, distanceName, index ?? _swims.Count);
         _swims.Add(swim);
+        return swim;
     }
+
+    public bool RemoveSwim(Swim swim) =>
+        _swims.Remove(swim);
 }

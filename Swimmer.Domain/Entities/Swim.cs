@@ -1,5 +1,8 @@
 ﻿namespace Swimmer.Domain.Entities;
 
+using System.Diagnostics;
+
+[DebuggerDisplay("{DistanceName}: {Gender}")]
 public class Swim : BaseEntity
 {
     private readonly SortedDictionary<int, AthleteOnSwim> _athletes;
@@ -20,7 +23,7 @@ public class Swim : BaseEntity
 
     public IReadOnlyDictionary<int, AthleteOnSwim> Athletes => _athletes;
 
-    public void AddAthleteForSwim(Athlete athlete, TimeSpan? preliminaryTime, int? row)
+    public AthleteOnSwim AddAthleteForSwim(Athlete athlete, TimeSpan? preliminaryTime, int? row)
     {
         var actualRow = row ?? Athletes.Count;
 
@@ -34,5 +37,12 @@ public class Swim : BaseEntity
 
         var athleteOnSwim = new AthleteOnSwim(athlete, this, actualRow, preliminaryTime);
         _athletes[actualRow] = athleteOnSwim;
+
+        return athleteOnSwim;
+    }
+
+    public override string ToString()
+    {
+        return $"{Index}) {DistanceName} ({Gender})";
     }
 }

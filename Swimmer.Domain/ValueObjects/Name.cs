@@ -23,4 +23,9 @@ public readonly record struct Name
         if (name.Length < 2)
             throw new ArgumentOutOfRangeException(nameof(name), "Name length must be greater than one");
     }
+
+    public override string ToString()
+    {
+        return _name ?? "NO_NAME";
+    }
 }

@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.Domain", "Swimmer.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.Services", "Swimmer.Services\Swimmer.Services.csproj", "{B3F9253C-522C-48CD-A109-8FA7F96C9E99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.Infrastructure", "Swimmer.Infrastructure\Swimmer.Infrastructure.csproj", "{BED6B8FA-98C7-4231-858B-87CE259BDA1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B3F9253C-522C-48CD-A109-8FA7F96C9E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3F9253C-522C-48CD-A109-8FA7F96C9E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3F9253C-522C-48CD-A109-8FA7F96C9E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED6B8FA-98C7-4231-858B-87CE259BDA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED6B8FA-98C7-4231-858B-87CE259BDA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED6B8FA-98C7-4231-858B-87CE259BDA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED6B8FA-98C7-4231-858B-87CE259BDA1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

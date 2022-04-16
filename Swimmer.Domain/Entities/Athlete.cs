@@ -1,5 +1,6 @@
 ﻿namespace Swimmer.Domain.Entities;
 
+using System.Diagnostics;
 using ValueObjects;
 
 public class Athlete : BaseEntity
@@ -16,4 +17,9 @@ public class Athlete : BaseEntity
     public Year BirthYear { get; }
 
     public Gender Gender { get; }
+
+    public override string ToString()
+    {
+        return $"{Name}: {BirthYear} ({Gender})";
+    }
 }

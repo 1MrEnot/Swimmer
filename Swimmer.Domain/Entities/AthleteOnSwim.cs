@@ -21,4 +21,10 @@ public class AthleteOnSwim : BaseEntity
     public TimeSpan? SwimTime { get; set; }
 
     public SwimState SwimState { get; set; }
+
+    public override string ToString()
+    {
+        const string defaultTimeRepresentation = "NO_TIME";
+        return $"{Row}) {Athlete.Name}: {PreliminaryTime?.ToString() ?? defaultTimeRepresentation}";
+    }
 }
