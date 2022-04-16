@@ -1,5 +1,6 @@
 ﻿namespace Swimmer.Domain.Entities;
 
+using Enums;
 using ValueObjects;
 
 public class Competition
@@ -25,7 +26,7 @@ public class Competition
         _athletes[athlete.Name] = athlete;
     }
 
-    public Swim CreateSwim(Gender gender, string distanceName, int? index)
+    public Swim CreateSwim(Gender gender, string distanceName, int? index=null)
     {
         var swim = new Swim(gender, distanceName, index ?? _swims.Count);
         _swims.Add(swim);

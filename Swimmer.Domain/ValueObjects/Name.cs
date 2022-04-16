@@ -15,6 +15,9 @@ public readonly record struct Name
         return new Name(str!);
     }
 
+    public static implicit operator Name(string str) =>
+        FromString(str);
+
     private static void Validate(string? name)
     {
         if (name is null)

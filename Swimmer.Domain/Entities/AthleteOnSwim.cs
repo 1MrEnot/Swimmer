@@ -1,5 +1,7 @@
 ﻿namespace Swimmer.Domain.Entities;
 
+using Enums;
+
 public class AthleteOnSwim : BaseEntity
 {
     public AthleteOnSwim(Athlete athlete, Swim swim, int row, TimeSpan? preliminaryTime)

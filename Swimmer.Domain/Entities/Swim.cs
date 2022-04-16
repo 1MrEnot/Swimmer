@@ -1,6 +1,7 @@
 ﻿namespace Swimmer.Domain.Entities;
 
 using System.Diagnostics;
+using Enums;
 
 [DebuggerDisplay("{DistanceName}: {Gender}")]
 public class Swim : BaseEntity
@@ -23,9 +24,10 @@ public class Swim : BaseEntity
 
     public IReadOnlyDictionary<int, AthleteOnSwim> Athletes => _athletes;
 
-    public AthleteOnSwim AddAthleteForSwim(Athlete athlete, TimeSpan? preliminaryTime, int? row)
+    public AthleteOnSwim AddAthleteForSwim(Athlete athlete, TimeSpan? preliminaryTime=null, int? row=null)
     {
-        var actualRow = row ?? Athletes.Count;
+        // Count from 1
+        var actualRow = row ?? Athletes.Keys.Max()+1;
 
         if (Athletes.ContainsKey(actualRow))
             throw new ArgumentOutOfRangeException(nameof(row),

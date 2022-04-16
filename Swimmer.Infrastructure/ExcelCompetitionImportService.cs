@@ -3,6 +3,7 @@
 using System.Data;
 using Domain;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.ValueObjects;
 using ExcelDataReader;
 using Services.CompetitionImportSerivce;

@@ -1,6 +1,6 @@
 ﻿namespace Swimmer.Domain.Entities;
 
-using System.Diagnostics;
+using Enums;
 using ValueObjects;
 
 public class Athlete : BaseEntity

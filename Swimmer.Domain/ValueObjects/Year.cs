@@ -18,6 +18,9 @@ public readonly record struct Year : IComparable<Year>
         return new Year(year!.Value);
     }
 
+    public static implicit operator Year(int num) =>
+        FromInt(num);
+
     private static void Validate(int? year)
     {
         if (year is null)

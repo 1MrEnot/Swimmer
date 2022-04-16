@@ -1,4 +1,4 @@
-﻿namespace Swimmer.Domain;
+﻿namespace Swimmer.Domain.Enums;
 
 public enum Gender : byte
 {
