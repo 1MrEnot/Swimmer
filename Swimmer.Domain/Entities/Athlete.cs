@@ -5,6 +5,13 @@ using ValueObjects;
 
 public class Athlete : BaseEntity
 {
+    private Athlete()
+    {
+        Name = Name.Empty;
+        BirthYear = Year.Empty;
+        Gender = Gender.Unknown;
+    }
+    
     public Athlete(Name name, Year birthYear, Gender gender)
     {
         Name = name;

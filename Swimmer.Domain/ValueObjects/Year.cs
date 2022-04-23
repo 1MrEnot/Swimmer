@@ -1,15 +1,22 @@
 ﻿namespace Swimmer.Domain.ValueObjects;
 
-public readonly record struct Year : IComparable<Year>
+public record Year : IComparable<Year>
 {
+    public static readonly Year Empty = new();
+    
     private const int MinumumYear = 1930;
     private static readonly int MaximumYear = DateTime.UtcNow.Year;
 
-    private readonly int _year;
+    public int YearValue { get; }
 
-    private Year(int year)
+    private Year()
     {
-        _year = year;
+        YearValue = MinumumYear;
+    }
+    
+    private Year(int yearValue)
+    {
+        YearValue = yearValue;
     }
 
     public static Year FromInt(int? year)
@@ -33,13 +40,15 @@ public readonly record struct Year : IComparable<Year>
             throw new ArgumentOutOfRangeException(nameof(year), $"Year must be less than {MaximumYear}");
     }
 
-    public int CompareTo(Year other)
+    public int CompareTo(Year? other)
     {
-        return _year.CompareTo(other._year);
+        return other is null 
+            ? 1 
+            : YearValue.CompareTo(other.YearValue);
     }
 
     public override string ToString()
     {
-        return _year.ToString();
+        return YearValue.ToString();
     }
 }

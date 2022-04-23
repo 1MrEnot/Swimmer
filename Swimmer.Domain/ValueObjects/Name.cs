@@ -1,12 +1,19 @@
 ﻿namespace Swimmer.Domain.ValueObjects;
 
-public readonly record struct Name
+public record Name
 {
-    private readonly string _name;
+    public static readonly Name Empty = new();
 
-    private Name(string name)
+    public string NameValue { get; }
+
+    private Name()
     {
-        _name = name;
+        NameValue = string.Empty;
+    }
+    
+    private Name(string nameValue)
+    {
+        NameValue = nameValue;
     }
 
     public static Name FromString(string? str)
@@ -29,6 +36,6 @@ public readonly record struct Name
 
     public override string ToString()
     {
-        return _name ?? "NO_NAME";
+        return NameValue;
     }
 }
