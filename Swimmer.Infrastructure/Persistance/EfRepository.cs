@@ -6,23 +6,32 @@ using Services;
 public class EfRepository<T> : IRepository<T>
     where T : BaseEntity
 {
-    public Task<T> Get(int id)
+    private readonly SwimmerContext _context;
+
+    public EfRepository(SwimmerContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task Save(T entity)
+    public ValueTask<T?> Get(int id)
     {
-        throw new NotImplementedException();
+        return _context.FindAsync<T>(id);
     }
 
-    public Task Remove(T entity)
+    public async ValueTask Save(T entity)
     {
-        throw new NotImplementedException();
+        await _context.AddAsync(entity);
+        await _context.SaveChangesAsync().ConfigureAwait(false);
+    }
+
+    public async ValueTask Remove(T entity)
+    {
+        _context.Remove(entity);
+        await _context.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public IQueryable<T> GetAll()
     {
-        throw new NotImplementedException();
+        return _context.Set<T>();
     }
 }

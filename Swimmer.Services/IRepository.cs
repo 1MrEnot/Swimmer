@@ -5,11 +5,11 @@ using Domain.Entities;
 public interface IRepository<T>
     where T: BaseEntity
 {
-    Task<T> Get(int id);
+    ValueTask<T?> Get(int id);
 
-    Task Save(T entity);
+    ValueTask Save(T entity);
 
-    Task Remove(T entity);
+    ValueTask Remove(T entity);
 
     IQueryable<T> GetAll();
 }
