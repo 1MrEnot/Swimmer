@@ -1,16 +1,14 @@
 ﻿namespace Swimmer.Services.CompetitionImportSerivce;
 
-using Domain;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.ValueObjects;
 
 public interface ICompetitionImportService
 {
     Competition ParseFile(Stream stream);
 }
 
-class FakeCompetitionImportService : ICompetitionImportService
+public class FakeCompetitionImportService : ICompetitionImportService
 {
     public Competition ParseFile(Stream stream)
     {
