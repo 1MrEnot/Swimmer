@@ -11,7 +11,6 @@ public class AthleteOnSwimMap : IEntityTypeConfiguration<AthleteOnSwim>
         builder.HasKey(x => x.Id);
 
         builder.HasOne(x => x.Athlete);
-        // builder.HasOne(x => x.Swim);
 
         builder.Property(x => x.Row);
         builder.Property(x => x.PreliminaryTime);
@@ -19,6 +18,5 @@ public class AthleteOnSwimMap : IEntityTypeConfiguration<AthleteOnSwim>
         builder.Property(x => x.SwimTime);
 
         builder.Navigation(x => x.Athlete).AutoInclude();
-        // builder.Navigation(x => x.Swim).AutoInclude();
     }
 }
