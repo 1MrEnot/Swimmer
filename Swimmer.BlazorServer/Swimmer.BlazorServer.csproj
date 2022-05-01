@@ -6,9 +6,4 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Swimmer.Infrastructure\Swimmer.Infrastructure.csproj" />
-      <ProjectReference Include="..\Swimmer.Services\Swimmer.Services.csproj" />
-    </ItemGroup>
-
 </Project>
