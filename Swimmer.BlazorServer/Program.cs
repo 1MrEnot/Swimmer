@@ -1,3 +1,4 @@
+using MediatR;
 using Swimmer.BlazorServer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddMediatR(typeof(Swimmer.Application.SwimDto));
 
 var app = builder.Build();
 

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.BlazorServer", "Swimmer.BlazorServer\Swimmer.BlazorServer.csproj", "{BE7E3FCC-B675-4C83-8862-107FA3492DA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swimmer.Application", "Swimmer.Application\Swimmer.Application.csproj", "{B64F5DAE-1371-4F5C-9C74-E86E0C0002D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{BE7E3FCC-B675-4C83-8862-107FA3492DA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE7E3FCC-B675-4C83-8862-107FA3492DA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE7E3FCC-B675-4C83-8862-107FA3492DA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64F5DAE-1371-4F5C-9C74-E86E0C0002D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64F5DAE-1371-4F5C-9C74-E86E0C0002D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64F5DAE-1371-4F5C-9C74-E86E0C0002D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64F5DAE-1371-4F5C-9C74-E86E0C0002D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

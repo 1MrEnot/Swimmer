@@ -1,0 +1,18 @@
+﻿@using Swimmer.Domain.Entities
+<h3>AthleteOnSwimComponent</h3>
+
+<tr>
+    <td> @AthleteOnSwim.Row </td>
+    <td> @AthleteOnSwim.Athlete.Name.NameValue </td>
+    <td> @PreliminaryTime< td>
+</tr>
+
+
+@code {
+    [Parameter]
+    public AthleteOnSwim AthleteOnSwim { get; set; }
+
+    private string PreliminaryTime => 
+        AthleteOnSwim.PreliminaryTime?.ToString() ?? "";
+
+}
