@@ -29,6 +29,8 @@ public class Swim : BaseEntity
     public Gender Gender { get; }
 
     public string DistanceName { get; }
+    
+    public DateTime? StartTime { get; set; }
 
     public ICollection<AthleteOnSwim> Athletes => _athletes;
 

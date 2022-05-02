@@ -1,0 +1,40 @@
+﻿@page "/StopwatchDemo"
+@using Swimmer.Application
+@using Swimmer.Infrastructure
+
+@inject IMediator Mediator;
+@inject SignalRStopwatchClient SignalRStopwatchClient;
+
+<h3>StopwatchDemo</h3>
+
+<button @onclick="StartSwim">START SWIM</button>
+
+@if (_stopwatchInfo == default)
+{
+    <p>waiting...</p>
+}
+else
+{
+    <p> Started @_stopwatchInfo.Item2 swim of @_stopwatchInfo.Item1 competition at @_stopwatchInfo.Item3</p>
+}
+
+@code {
+    private (int, int, DateTime) _stopwatchInfo;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        SignalRStopwatchClient.OnStopwatchStarted(OnStopwatchStarted);
+        await SignalRStopwatchClient.Start();
+    }
+    
+    private void OnStopwatchStarted(int competitionId, int swimId, DateTime startTime)
+    {
+        _stopwatchInfo = (competitionId, swimId, startTime);
+        StateHasChanged();
+    }
+
+    private Task StartSwim()
+    {
+        return Mediator.Send(new StartSwimCommand(1, 1));
+    }
+}

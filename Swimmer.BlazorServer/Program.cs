@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Swimmer.BlazorServer.Data;
+using Swimmer.Infrastructure;
 using Swimmer.Infrastructure.Persistance;
 using Swimmer.Services;
 using Swimmer.Services.CompetitionImportSerivce;
@@ -16,7 +16,8 @@ builder.Services.AddDbContext<SwimmerContext>(options =>
 });
 builder.Services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddTransient<ICompetitionImportService, FakeCompetitionImportService>();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddTransient<IStopwatchSerivce, SignalRStopwatchSerivce>();
+builder.Services.AddScoped<SignalRStopwatchClient>();
 builder.Services.AddMediatR(typeof(Swimmer.Application.SwimDto));
 
 var app = builder.Build();
@@ -36,6 +37,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<StopwatchHub>(StopwatchHub.HubPath);
 app.MapFallbackToPage("/_Host");
 
 app.Run();

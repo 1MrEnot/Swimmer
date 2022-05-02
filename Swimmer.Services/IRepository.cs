@@ -14,4 +14,6 @@ public interface IRepository<T>
     ValueTask Remove(T entity);
 
     IQueryable<T> GetAll();
+
+    ValueTask SaveChanges();
 }

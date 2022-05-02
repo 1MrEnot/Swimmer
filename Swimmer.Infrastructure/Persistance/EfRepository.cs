@@ -41,4 +41,9 @@ public class EfRepository<T> : IRepository<T>
     {
         return _context.Set<T>();
     }
+
+    public async ValueTask SaveChanges()
+    {
+        await _context.SaveChangesAsync();
+    }
 }
