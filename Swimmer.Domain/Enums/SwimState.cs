@@ -5,6 +5,6 @@ public enum SwimState
     NotStarted = 0,
     Done = 1,
     Disqualification = 2,
-    NoShow = 3,
-    NoCount = 4,
+    Absent = 3,
+    DoesNotCount = 4,
 }

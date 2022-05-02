@@ -1,4 +1,4 @@
-﻿namespace Swimmer.Application;
+﻿namespace Swimmer.Services;
 
 using System.Diagnostics.CodeAnalysis;
 

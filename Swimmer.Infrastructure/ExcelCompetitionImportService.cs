@@ -23,7 +23,7 @@ public class ExcelCompetitionImportService : ICompetitionImportService
 
     private Competition ParseDataTableReader(IDataReader tableReader)
     {
-        var competition = new Competition();
+        var competition = new Competition("TEST NAME", 6);
 
         tableReader.Read();
 

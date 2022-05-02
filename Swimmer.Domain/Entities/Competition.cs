@@ -7,12 +7,23 @@ public class Competition : BaseEntity
     private readonly HashSet<Athlete> _athletes;
     private readonly List<Swim> _swims;
 
-    public Competition()
+    private Competition()
     {
         _swims = new();
         _athletes = new(new AthleteComparer());
+        Name = string.Empty;
     }
 
+    public Competition(string name, int trackCount) : this()
+    {
+        Name = name;
+        TrackCount = trackCount;
+    }
+
+    public string Name { get; }
+    
+    public int TrackCount { get; }
+    
     public IReadOnlyList<Swim> Swims => _swims;
 
     public ICollection<Athlete> Athletes => _athletes;

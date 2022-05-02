@@ -37,14 +37,14 @@ public class Swim : BaseEntity
         // Count from 1
         var actualRow = row ?? 
                         (Athletes.Any()
-                            ? Athletes.Max(a => a.Row) + 1
+                            ? Athletes.Max(a => a.Track) + 1
                             : 1);
 
         if (athlete.Gender != Gender)
             throw new ArgumentOutOfRangeException(nameof(athlete),
                 $"{athlete} is not {Gender} and can not participate in the swim");
 
-        var athleteOnSwim = new AthleteOnSwim(athlete, this, actualRow, preliminaryTime);
+        var athleteOnSwim = new AthleteOnSwim(athlete, actualRow, preliminaryTime);
         if (!_athletes.Add(athleteOnSwim))
             throw new ArgumentException("Failed to add athlete to swim", nameof(athlete));
 
@@ -75,7 +75,7 @@ public class Swim : BaseEntity
                 return -1;
             }
 
-            return x.Row.CompareTo(y.Row);
+            return x.Track.CompareTo(y.Track);
         }
     }
 }

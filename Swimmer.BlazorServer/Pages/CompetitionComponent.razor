@@ -1,0 +1,15 @@
+﻿@using Swimmer.Application
+
+@foreach (var swim in SwimsToShow)
+{
+    <SwimComponent Swim="swim" TrackCount="TrackCount"></SwimComponent>
+}
+
+@code {
+
+    [Parameter]
+    public int TrackCount { get; set; }
+    
+    [Parameter]
+    public List<SwimDto> SwimsToShow { get; set; } = null!;
+}

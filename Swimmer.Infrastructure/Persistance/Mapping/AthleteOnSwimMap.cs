@@ -12,7 +12,7 @@ public class AthleteOnSwimMap : IEntityTypeConfiguration<AthleteOnSwim>
 
         builder.HasOne(x => x.Athlete);
 
-        builder.Property(x => x.Row);
+        builder.Property(x => x.Track);
         builder.Property(x => x.PreliminaryTime);
         builder.Property(x => x.SwimState);
         builder.Property(x => x.SwimTime);

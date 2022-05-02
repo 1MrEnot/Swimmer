@@ -1,7 +1,40 @@
-﻿@using Swimmer.Domain.Entities
-<h3>SwimComponent</h3>
+﻿@using Swimmer.Application
+
+<table>
+    <tr>
+        <th>
+            Row
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Time
+        </th>
+    </tr>
+    
+    @foreach (var (i, athlete) in AthletesToShow().Select((i, x) => (x, i)))
+    {
+        <AthleteOnSwimComponent Row="i + 1" Name="@athlete?.Athlete.Name" PreliminaryTime="athlete?.PreliminaryTime"/>
+    }
+
+</table>
 
 @code {
     [Parameter]
-    public Swim Swim { get; set; }
+    public SwimDto Swim { get; set; } = null!;
+
+    [Parameter]
+    public int TrackCount { get; set; }
+    
+    private IEnumerable<AthleteOnSwimDto?> AthletesToShow()
+    {
+        var arr = new AthleteOnSwimDto?[TrackCount];
+        foreach (var athleteOnSwimDto in Swim.Athletes)
+        {
+            arr[athleteOnSwimDto.Track - 1] = athleteOnSwimDto;
+        }
+
+        return arr;
+    }
 }

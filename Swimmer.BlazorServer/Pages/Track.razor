@@ -1,0 +1,38 @@
+﻿@page "/Competition/{CompetitionId:int}/Track/{TrackNumber:int}"
+@using Swimmer.Application
+@inject IMediator Mediator;
+
+@if (!IsValid || CompetitionDto is null)
+{
+    <p> No track @TrackNumber on competition </p>
+}
+else
+{
+    @foreach (var swim in SwimsOnTrack)
+    {
+        <p>@swim.Index : @swim.DistanceName</p>
+        <AthleteOnSwimComponent Name="@swim.Athletes.Single().Athlete.Name" PreliminaryTime="swim.Athletes.Single().PreliminaryTime"></AthleteOnSwimComponent>
+    }
+}
+
+@code {
+    [Parameter]
+    public int CompetitionId { get; set; }
+
+    [Parameter]
+    public int TrackNumber { get; set; }
+
+    private CompetitionDto? CompetitionDto { get; set; }
+    
+    private bool IsValid { get; set; }
+
+    private List<SwimDto> SwimsOnTrack { get; set; } = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        CompetitionDto = await Mediator.Send(new GetCompetitionQuery(CompetitionId));
+        IsValid = TrackNumber <= CompetitionDto.TrackCount;
+        if (IsValid)
+            SwimsOnTrack = await Mediator.Send(new GetSwimsOnTrackQuery(CompetitionId, TrackNumber));
+    }
+}

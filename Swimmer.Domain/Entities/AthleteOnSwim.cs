@@ -9,16 +9,16 @@ public class AthleteOnSwim : BaseEntity
         Athlete = null!;
     }
   
-    public AthleteOnSwim(Athlete athlete, Swim swim, int row, TimeSpan? preliminaryTime)
+    public AthleteOnSwim(Athlete athlete, int track, TimeSpan? preliminaryTime)
     {
         Athlete = athlete;
-        Row = row;
+        Track = track;
         PreliminaryTime = preliminaryTime;
     }
 
     public Athlete Athlete { get; }
     
-    public int Row { get; }
+    public int Track { get; }
 
     public TimeSpan? PreliminaryTime { get; }
 
@@ -29,6 +29,6 @@ public class AthleteOnSwim : BaseEntity
     public override string ToString()
     {
         const string defaultTimeRepresentation = "NO_TIME";
-        return $"{Row}) {Athlete.Name}: {PreliminaryTime?.ToString() ?? defaultTimeRepresentation}";
+        return $"{Track}) {Athlete.Name}: {PreliminaryTime?.ToString() ?? defaultTimeRepresentation}";
     }
 }

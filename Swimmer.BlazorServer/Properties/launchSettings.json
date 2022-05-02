@@ -12,7 +12,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development" 
       } 
     },
- 
     "Swimmer.BlazorServer": {
       "commandName": "Project",
       "dotnetRunMessages": true,

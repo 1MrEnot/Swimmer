@@ -1,7 +1,7 @@
-﻿namespace Swimmer.Application.Competition.Queries;
+﻿namespace Swimmer.Application;
 
-using Domain.Entities;
 using MediatR;
+using Domain.Entities;
 using Services;
 
 public class GetCompetitionQueryHandler : IRequestHandler<GetCompetitionQuery, CompetitionDto>
@@ -16,13 +16,8 @@ public class GetCompetitionQueryHandler : IRequestHandler<GetCompetitionQuery, C
     public async Task<CompetitionDto> Handle(GetCompetitionQuery request, CancellationToken cancellationToken)
     {
         var competition = await _repository.Get(request.Id);
-        NoEntityException<Competition>.ThrowIfNull(competition, request.Id);
-
         return competition.Map();
     }
 }
 
-public class GetCompetitionQuery : IRequest<CompetitionDto>
-{
-    public int Id { get; set; }
-}
+public record GetCompetitionQuery(int Id) : IRequest<CompetitionDto>;

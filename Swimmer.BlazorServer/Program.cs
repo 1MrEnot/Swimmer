@@ -1,11 +1,21 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Swimmer.BlazorServer.Data;
+using Swimmer.Infrastructure.Persistance;
+using Swimmer.Services;
+using Swimmer.Services.CompetitionImportSerivce;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddDbContext<SwimmerContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
+});
+builder.Services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
+builder.Services.AddTransient<ICompetitionImportService, FakeCompetitionImportService>();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMediatR(typeof(Swimmer.Application.SwimDto));
 

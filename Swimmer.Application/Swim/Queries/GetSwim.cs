@@ -16,13 +16,8 @@ public class GetSwimQueryHandler : IRequestHandler<GetSwimQuery, SwimDto>
     public async Task<SwimDto> Handle(GetSwimQuery request, CancellationToken cancellationToken)
     {
         var swim = await _repository.Get(request.SwimId);
-        NoEntityException<Swim>.ThrowIfNull(swim, request.SwimId);
-
         return swim.Map();
     }
 }
 
-public class GetSwimQuery : IRequest<SwimDto>
-{
-    public int SwimId { get; set; }
-}
+public record GetSwimQuery(int SwimId) : IRequest<SwimDto>;

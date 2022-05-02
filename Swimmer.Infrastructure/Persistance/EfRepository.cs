@@ -13,9 +13,16 @@ public class EfRepository<T> : IRepository<T>
         _context = context;
     }
 
-    public ValueTask<T?> Get(int id)
+    public ValueTask<T?> GetOrDefault(int id)
     {
         return _context.FindAsync<T>(id);
+    }
+
+    public async ValueTask<T> Get(int id)
+    {
+        var result = await _context.FindAsync<T>(id);
+        NoEntityException<T>.ThrowIfNull(result, id);
+        return result;
     }
 
     public async ValueTask Save(T entity)

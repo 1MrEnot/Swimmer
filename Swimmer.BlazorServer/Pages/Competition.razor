@@ -1,0 +1,27 @@
+﻿@page "/competition/{Id:int}"
+@using Swimmer.Application
+@inject IMediator Mediator
+
+@if (CompetitionDto is null || SwimsOnPage is null)
+{
+    <p> Loading...</p>
+}
+else
+{
+    <CompetitionComponent TrackCount="CompetitionDto.TrackCount" SwimsToShow="SwimsOnPage"></CompetitionComponent>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private CompetitionDto? CompetitionDto { get; set; }
+    
+    private List<SwimDto>? SwimsOnPage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CompetitionDto = await Mediator.Send(new GetCompetitionQuery(Id));
+        SwimsOnPage = await Mediator.Send(new GetSwimPagedQuery(CompetitionDto.Id, 0, 10));
+    }
+}

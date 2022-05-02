@@ -9,7 +9,7 @@ public class AthleteOnSwimDto
     
     public AthleteDto Athlete { get; set; } = null!;
     
-    public int Row { get; set; }
+    public int Track { get; set; }
 
     public TimeSpan? PreliminaryTime { get; set; }
 
@@ -25,7 +25,7 @@ public static class AthleteOnSwimMap
         return new AthleteOnSwimDto
         {
             Id = athleteOnSwim.Id,
-            Row = athleteOnSwim.Row,
+            Track = athleteOnSwim.Track,
             Athlete = athleteOnSwim.Athlete.Map(),
             PreliminaryTime = athleteOnSwim.PreliminaryTime,
             SwimState = athleteOnSwim.SwimState,

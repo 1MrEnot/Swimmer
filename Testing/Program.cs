@@ -9,13 +9,13 @@ using Swimmer.Services.CompetitionImportSerivce;
 
 var optionsBuilder = new DbContextOptionsBuilder<SwimmerContext>();
 var options = optionsBuilder
-    .UseSqlite(@"Data Source=C:\Users\Max\RiderProjects\Swimmer\Testing\testingDb;")
+    .UseSqlite(@"Data Source=C:\Users\Max\RiderProjects\Swimmer\Testing\test.db;")
     .Options;
 
 await using var ctx = new SwimmerContext(options);
 var repo = new EfRepository<Competition>(ctx);
 
-var comp = await repo.Get(1);
+var comp = await repo.GetOrDefault(1);
 
 var a = 1;
 

@@ -9,6 +9,8 @@ public class CompetitionMap : IEntityTypeConfiguration<Competition>
     public void Configure(EntityTypeBuilder<Competition> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name);
+        builder.Property(x => x.TrackCount);
         builder.HasMany(x => x.Athletes);
         builder.HasMany(x => x.Swims);
 

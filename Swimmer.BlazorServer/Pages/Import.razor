@@ -1,0 +1,27 @@
+﻿@page "/Import"
+@using Swimmer.Services.CompetitionImportSerivce
+@using Swimmer.Services
+@inject ICompetitionImportService CompetitionImportService;
+@inject IRepository<Domain.Entities.Competition> Repository; 
+
+<button @onclick="ImportFile">Import</button>
+
+@if (_imported)
+{
+   <p> Done!</p>       
+}
+
+@code {
+
+    bool _imported;
+    
+    private async Task ImportFile()
+    {
+        if (_imported)
+            return;
+        
+        var competition = CompetitionImportService.ParseFile(null!);
+        await Repository.Save(competition);
+        _imported = true;
+    }
+}

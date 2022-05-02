@@ -1,12 +1,16 @@
-﻿namespace Swimmer.Application.Competition;
+﻿namespace Swimmer.Application;
 
 using Domain.Entities;
 
 public class CompetitionDto
 {
     public int Id { get; set; }
+    
+    public string Name { get; set; }
 
-    public List<SwimDto> Swims { get; set; }
+    public int TrackCount { get; set; }
+
+    public int SwimCount { get; set; }
 }
 
 public static class CompretitionMap
@@ -16,7 +20,9 @@ public static class CompretitionMap
         return new CompetitionDto
         {
             Id = competition.Id,
-            Swims = competition.Swims.Select(SwimMap.Map).ToList()
+            Name = competition.Name,
+            TrackCount = competition.TrackCount,
+            SwimCount = competition.Swims.Count
         };
     }
 }

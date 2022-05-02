@@ -5,7 +5,9 @@ using Domain.Entities;
 public interface IRepository<T>
     where T: BaseEntity
 {
-    ValueTask<T?> Get(int id);
+    ValueTask<T?> GetOrDefault(int id);
+
+    ValueTask<T> Get(int id);
 
     ValueTask Save(T entity);
 

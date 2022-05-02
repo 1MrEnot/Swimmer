@@ -1,0 +1,41 @@
+﻿@page "/Competitions"
+@using Swimmer.Application
+@inject IMediator Mediator
+
+@if (CompetitionList.Any())
+{
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Swim count
+            </th>
+        </tr>
+        @foreach (var competition in CompetitionList)
+        {
+            <tr>
+                <th>
+                    <a href="/Competition/@competition.Id">@competition.Name</a>
+                </th>
+                <th>
+                    @competition.SwimCount
+                </th>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <a href="/Import"> Add new competiton </a>
+}
+
+@code {
+    private List<CompetitionDto> CompetitionList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CompetitionList = await Mediator.Send(new GetAllCompetitionsQuery());
+    }
+}
