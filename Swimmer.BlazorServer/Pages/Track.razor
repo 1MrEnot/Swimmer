@@ -1,18 +1,22 @@
-﻿@page "/Competition/{CompetitionId:int}/Track/{TrackNumber:int}"
+﻿@page "/competition/{CompetitionId:int}/Track/{TrackNumber:int}"
 @using Swimmer.Application
+@using Swimmer.Infrastructure
+@inject SignalRStopwatchClient SignalRStopwatchClient;
 @inject IMediator Mediator;
 
+<TimerComponent AllowManualStart="false" OnStop="OnStop" @ref="_timer"></TimerComponent>
+<p>@Info</p>
 
-@if (!IsValid || CompetitionDto is null)
+@if (!SwimsOnTrack.Any())
 {
-    <p> No track @TrackNumber on competition </p>
+    <em>Loading...</em>
 }
 else
 {
     @foreach (var swim in SwimsOnTrack)
     {
         <p>@swim.Index : @swim.DistanceName</p>
-        <AthleteOnSwimComponent Name="@swim.Athletes.Single().Athlete.Name" PreliminaryTime="swim.Athletes.Single().PreliminaryTime"></AthleteOnSwimComponent>
+        <AthleteOnSwimComponent Name="@swim.Athletes.SingleOrDefault()?.Athlete.Name" PreliminaryTime="@swim.Athletes.SingleOrDefault()?.PreliminaryTime"></AthleteOnSwimComponent>
     }
 }
 
@@ -23,17 +27,32 @@ else
     [Parameter]
     public int TrackNumber { get; set; }
 
-    private CompetitionDto? CompetitionDto { get; set; }
+    private string Info { get; set; } = string.Empty;
     
-    private bool IsValid { get; set; }
-
+    private TimerComponent _timer = null!;
+    private CompetitionDto? CompetitionDto { get; set; }
     private List<SwimDto> SwimsOnTrack { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
     {
         CompetitionDto = await Mediator.Send(new GetCompetitionQuery(CompetitionId));
-        IsValid = TrackNumber <= CompetitionDto.TrackCount;
-        if (IsValid)
-            SwimsOnTrack = await Mediator.Send(new GetSwimsOnTrackQuery(CompetitionId, TrackNumber));
+        SwimsOnTrack = await Mediator.Send(new GetSwimsOnTrackQuery(CompetitionId, TrackNumber));
+        
+        SignalRStopwatchClient.OnStopwatchStarted(OnStopwatchStarted);
+        await SignalRStopwatchClient.Start();
+    }
+
+    private void OnStop(DateTime dateTime, TimeSpan timeSpan)
+    {
+        Info = $"Swim ended at {dateTime} in {timeSpan}";
+        StateHasChanged();
+    }
+    
+    private void OnStopwatchStarted(int competitionId, int swimId, DateTime startTime)
+    {
+        if (CompetitionId != competitionId) 
+            return;
+        
+        _timer.StartFrom(startTime);
     }
 }

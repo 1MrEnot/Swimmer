@@ -17,4 +17,16 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Components\AthleteOnSwimComponent.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Components\CompetitionComponent.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Components\SwimComponent.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\AthleteOnSwimComponent.razor" />
+      <AdditionalFiles Include="Components\CompetitionComponent.razor" />
+      <AdditionalFiles Include="Components\SwimComponent.razor" />
+    </ItemGroup>
+
 </Project>

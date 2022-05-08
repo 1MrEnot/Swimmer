@@ -1,4 +1,4 @@
-﻿@page "/Competitions"
+﻿@page "/competitions"
 @using Swimmer.Application
 @inject IMediator Mediator
 
@@ -17,7 +17,7 @@
         {
             <tr>
                 <th>
-                    <a href="/Competition/@competition.Id">@competition.Name</a>
+                    <a href="/competition/@competition.Id">@competition.Name</a>
                 </th>
                 <th>
                     @competition.SwimCount
@@ -28,7 +28,7 @@
 }
 else
 {
-    <a href="/Import"> Add new competiton </a>
+    <a href="/import"> Add new competiton </a>
 }
 
 @code {

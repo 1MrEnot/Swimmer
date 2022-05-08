@@ -1,0 +1,71 @@
+﻿@using System.Timers
+
+<b>@Elapsed.ToString(@"m\.ss\.ff")</b>
+<button onclick="@ChangeTimerState">TRIGGER</button>
+
+@code {
+    
+    [Parameter]
+    public Action<DateTime>? OnStart { get; set; }
+    
+    [Parameter]
+    public Action<DateTime, TimeSpan>? OnStop { get; set; }
+
+    [Parameter]
+    public bool AllowManualStart { get; set; } = true;
+    
+    [Parameter]
+    public bool AllowManualStop { get; set; } = true;
+    
+    [Parameter]
+    public int Interval { get; set; } = 10;
+
+    private Timer _timer = null!;
+    private DateTime StartedAt { get; set; }
+    private TimeSpan Elapsed { get; set; } = TimeSpan.Zero;
+
+    protected override void OnInitialized()
+    {
+        _timer = new(Interval);
+        _timer.Elapsed += OnTick;
+    }
+    
+    private void OnTick(object? o, ElapsedEventArgs args)
+    {
+        Elapsed = args.SignalTime - StartedAt;
+        InvokeAsync(StateHasChanged);
+    }
+    
+    public void Start()
+    {
+        StartFrom(DateTime.Now);
+    }
+    
+    public void StartFrom(DateTime dateTime)
+    {
+        StartedAt = dateTime;
+        _timer.Enabled = true;
+        OnStart?.Invoke(dateTime);
+    }
+
+    public void Stop()
+    {
+        var stoppedAt = StartedAt + Elapsed;
+        _timer.Enabled = false;
+        OnStop?.Invoke(stoppedAt, Elapsed);
+    }
+
+    private void ChangeTimerState()
+    {
+        if (_timer.Enabled)
+        {
+            if (AllowManualStop) 
+                Stop();
+        }
+        else
+        {
+            if (AllowManualStart)
+                Start();
+        }
+    }
+}

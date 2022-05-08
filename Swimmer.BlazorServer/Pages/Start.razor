@@ -1,0 +1,33 @@
+﻿@page "/competition/{CompetitionId:int}/start"
+@using Swimmer.Application
+@using Swimmer.Infrastructure
+
+@inject IMediator Mediator;
+@inject SignalRStopwatchClient SignalRStopwatchClient;
+
+<TimerComponent OnStart="StartSwim" @ref="_timer"></TimerComponent>
+
+@code {
+    [Parameter]
+    public int CompetitionId { get; set; }
+
+    public int CurrentSwimId { get; set; } = 1;
+
+    private TimerComponent _timer = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SignalRStopwatchClient.OnSwimEnded(OnSwimEnded);
+        await SignalRStopwatchClient.Start();
+    }
+
+    private void OnSwimEnded(int competitionId, int swimId)
+    {
+        _timer.Stop();
+    }
+
+    private void StartSwim(DateTime dateTime)
+    {
+        Mediator.Send(new StartSwimCommand(CompetitionId, CurrentSwimId, dateTime));
+    }
+}

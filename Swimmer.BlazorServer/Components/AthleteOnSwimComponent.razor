@@ -4,7 +4,7 @@
 
 <tr>
     <td> @Row </td>
-    <td> @Name </td>
+    <td> @NameStr </td>
     <td> @PreliminaryTimeStr</td> 
 </tr>
 
@@ -21,4 +21,6 @@
 
     private string PreliminaryTimeStr => 
         PreliminaryTime?.ToString(@"m\.ss\.ff") ?? "";
+
+    private string NameStr => Name ?? string.Empty;
 }

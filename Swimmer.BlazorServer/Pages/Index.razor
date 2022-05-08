@@ -4,6 +4,15 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<TimerComponent @ref="_timerComponent" OnStop="@OnStop"></TimerComponent>
+<button @onclick="() => _timerComponent.StartFrom(DateTime.Now - TimeSpan.FromSeconds(5))"> Start from 5 sec ago</button>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+
+@code{
+    private TimerComponent _timerComponent = null!;
+    
+    private void OnStop(DateTime dateTime, TimeSpan span)
+    {
+        Console.WriteLine($"Stopped at {dateTime}. Elapsed {span}");
+    }
+}
