@@ -1,7 +1,6 @@
 ﻿namespace Swimmer.Infrastructure;
 
 using System.Data;
-using Domain;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.ValueObjects;
