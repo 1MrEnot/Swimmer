@@ -4,23 +4,30 @@
 
 <tr>
     <td> @Row </td>
-    <td> @NameStr </td>
-    <td> @PreliminaryTimeStr</td> 
+    <td> @Name </td>
+    <td> @PreliminaryTime.ToFormattedString()</td> 
+    <td> @Time.ToFormattedString()</td> 
 </tr>
-
 
 @code {
     [Parameter]
     public int Row { get; set; }
 
     [Parameter]
-    public string? Name { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     
     [Parameter]
     public TimeSpan? PreliminaryTime { get; set; }
 
-    private string PreliminaryTimeStr => 
-        PreliminaryTime?.ToString(@"m\.ss\.ff") ?? "";
+    [Parameter]
+    public TimeSpan? Time { get; set; }
 
-    private string NameStr => Name ?? string.Empty;
+    [CascadingParameter]
+    public SwimComponent ParentComponent { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        ParentComponent.AddChild(this);
+    }
+
 }

@@ -4,6 +4,8 @@ using Domain.Entities;
 using MediatR;
 using Services;
 
+public record GetAllCompetitionsQuery : IRequest<List<CompetitionDto>>;
+
 public class GetAllCompetitionsQueryHandler : IRequestHandler<GetAllCompetitionsQuery, List<CompetitionDto>>
 {
     private readonly IRepository<Competition> _repository;
@@ -19,5 +21,3 @@ public class GetAllCompetitionsQueryHandler : IRequestHandler<GetAllCompetitions
         return competitions.Select(CompretitionMap.Map).ToList();
     }
 }
-
-public record GetAllCompetitionsQuery : IRequest<List<CompetitionDto>>;

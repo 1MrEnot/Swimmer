@@ -58,6 +58,9 @@ public class Swim : BaseEntity
         return $"{Index}) {DistanceName} ({Gender})";
     }
 
+    public bool Finished => _athletes.All(a =>
+        a.SwimState is SwimState.Absent or SwimState.Disqualification or SwimState.Done or SwimState.DoesNotCount);
+    
     private class AthleteOnSwimComparer : IComparer<AthleteOnSwim>
     {
         public int Compare(AthleteOnSwim? x, AthleteOnSwim? y)

@@ -2,27 +2,13 @@
 
 using Domain.Entities;
 
-public class CompetitionDto
-{
-    public int Id { get; set; }
-    
-    public string Name { get; set; }
-
-    public int TrackCount { get; set; }
-
-    public int SwimCount { get; set; }
-}
+public record CompetitionDto(int Id, string Name, int TrackCount, int SwimCount);
 
 public static class CompretitionMap
 {
-    public static CompetitionDto Map(this Competition competition)
-    {
-        return new CompetitionDto
-        {
-            Id = competition.Id,
-            Name = competition.Name,
-            TrackCount = competition.TrackCount,
-            SwimCount = competition.Swims.Count
-        };
-    }
+    public static CompetitionDto Map(this Competition competition) =>
+        new(competition.Id,
+            competition.Name,
+            competition.TrackCount,
+            competition.Swims.Count);
 }

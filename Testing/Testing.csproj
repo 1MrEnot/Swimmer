@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Swimmer.Infrastructure\Swimmer.Infrastructure.csproj" />
       <ProjectReference Include="..\Swimmer.Services\Swimmer.Services.csproj" />
+      <ProjectReference Include="..\Swimmer.StartParser\Swimmer.StartParser.csproj" />
     </ItemGroup>
 
     <ItemGroup>

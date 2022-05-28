@@ -1,6 +1,9 @@
 ﻿@using System.Timers
 
-<b>@Elapsed.ToString(@"m\.ss\.ff")</b>
+<div>
+    <b>@Elapsed.ToFormattedString()</b>
+</div>
+
 <button onclick="@ChangeTimerState">TRIGGER</button>
 
 @code {

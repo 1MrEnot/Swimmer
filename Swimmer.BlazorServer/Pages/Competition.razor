@@ -8,6 +8,13 @@
 }
 else
 {
+    <p> Tracks: </p>
+    @for (var i = 1; i < CompetitionDto.TrackCount+1; i++)
+    {
+        <a href="competition/@CompetitionDto.Id/track/@i"> @i </a> 
+    }
+    <a href="competition/@CompetitionDto.Id/start">Starter</a>
+
     <CompetitionComponent TrackCount="CompetitionDto.TrackCount" SwimsToShow="SwimsOnPage"></CompetitionComponent>
 }
 

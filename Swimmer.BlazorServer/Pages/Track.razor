@@ -1,24 +1,23 @@
-﻿@page "/competition/{CompetitionId:int}/Track/{TrackNumber:int}"
+﻿@page "/competition/{CompetitionId:int}/track/{TrackNumber:int}"
 @using Swimmer.Application
+@using Swimmer.Application.Commands
 @using Swimmer.Infrastructure
 @inject SignalRStopwatchClient SignalRStopwatchClient;
 @inject IMediator Mediator;
 
-<TimerComponent AllowManualStart="false" OnStop="OnStop" @ref="_timer"></TimerComponent>
-<p>@Info</p>
-
-@if (!SwimsOnTrack.Any())
+@* ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract *@
+@if (CurrentSwim is null)
 {
-    <em>Loading...</em>
+    <p>loading...</p>
 }
 else
 {
-    @foreach (var swim in SwimsOnTrack)
-    {
-        <p>@swim.Index : @swim.DistanceName</p>
-        <AthleteOnSwimComponent Name="@swim.Athletes.SingleOrDefault()?.Athlete.Name" PreliminaryTime="@swim.Athletes.SingleOrDefault()?.PreliminaryTime"></AthleteOnSwimComponent>
-    }
+    <h3> Swim: @OneBasedCurrentSwimIndex </h3>
+    <h4> @(CurrentAthlete?.Athlete.Name ?? "---") </h4>
 }
+
+<TimerComponent AllowManualStart="false" OnStop="OnStop" @ref="_timer"></TimerComponent>
+
 
 @code {
     [Parameter]
@@ -27,32 +26,49 @@ else
     [Parameter]
     public int TrackNumber { get; set; }
 
-    private string Info { get; set; } = string.Empty;
+    private int OneBasedCurrentSwimIndex => CurrentSwim.Index + 1;
+
+    private SwimDto CurrentSwim { get; set; } = null!;
+    
+    private AthleteOnSwimDto? CurrentAthlete { get; set; }
     
     private TimerComponent _timer = null!;
-    private CompetitionDto? CompetitionDto { get; set; }
-    private List<SwimDto> SwimsOnTrack { get; set; } = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
-        CompetitionDto = await Mediator.Send(new GetCompetitionQuery(CompetitionId));
-        SwimsOnTrack = await Mediator.Send(new GetSwimsOnTrackQuery(CompetitionId, TrackNumber));
-        
         SignalRStopwatchClient.OnStopwatchStarted(OnStopwatchStarted);
+        SignalRStopwatchClient.OnSwimEnded(OnSwimEnded);
         await SignalRStopwatchClient.Start();
+        var nextSwim = await Mediator.Send(new GetNextSwimQuery(CompetitionId));
+        if (nextSwim is null)
+        {
+            CurrentSwim = await Mediator.Send(new GetSwimByIndexQuery(CompetitionId, 0));
+            return;
+        }
+
+        CurrentSwim = nextSwim;
+        CurrentAthlete = GetTrackAthlete(CurrentSwim);
     }
 
-    private void OnStop(DateTime dateTime, TimeSpan timeSpan)
+    private async void OnStop(DateTime dateTime, TimeSpan timeSpan)
     {
-        Info = $"Swim ended at {dateTime} in {timeSpan}";
         StateHasChanged();
+        if (CurrentAthlete is not null)
+            await Mediator.Send(new StopAthleteOnSwimCommand(CurrentSwim.Id, CurrentAthlete.Id, timeSpan));
     }
     
-    private void OnStopwatchStarted(int competitionId, int swimId, DateTime startTime)
+    private void OnStopwatchStarted(int swimId, DateTime startTime)
     {
-        if (CompetitionId != competitionId) 
-            return;
-        
         _timer.StartFrom(startTime);
     }
+
+    private async void OnSwimEnded(int swimId)
+    {
+        _timer.Stop();
+        CurrentSwim = await Mediator.Send(new GetSwimByIndexQuery(CompetitionId, CurrentSwim.Index));
+        CurrentAthlete = GetTrackAthlete(CurrentSwim);
+    }
+
+    private AthleteOnSwimDto? GetTrackAthlete(SwimDto? swim) =>
+        swim?.Athletes.SingleOrDefault(a => a.Track == TrackNumber);
 }

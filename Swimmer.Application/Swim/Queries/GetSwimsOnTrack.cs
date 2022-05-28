@@ -4,6 +4,8 @@ using Domain.Entities;
 using MediatR;
 using Services;
 
+public record GetSwimsOnTrackQuery(int CompetitionId, int TrackNumber) : IRequest<List<SwimDto>>;
+
 public class GetSwimsOnTrackQueryHandler : IRequestHandler<GetSwimsOnTrackQuery, List<SwimDto>>
 {
     private readonly IRepository<Competition> _repository;
@@ -23,20 +25,14 @@ public class GetSwimsOnTrackQueryHandler : IRequestHandler<GetSwimsOnTrackQuery,
         return swimsOnTrack;
     }
 
-    private static SwimDto GetSwimsOnTrack(Swim s, int trackNumber)
-    {
-        return new SwimDto 
-        {
-            Id = s.Id,
-            Index = s.Index,
-            DistanceName = s.DistanceName,
-            Gender = s.Gender,
-            Athletes = s.Athletes
+    private static SwimDto GetSwimsOnTrack(Swim s, int trackNumber) =>
+        new(
+            s.Id,
+            s.Index,
+            s.Gender,
+            s.DistanceName,
+            s.Athletes
                 .Where(a => a.Track == trackNumber)
                 .Select(AthleteOnSwimMap.Map)
-                .ToList()
-        };
-    }
+                .ToArray());
 }
-
-public record GetSwimsOnTrackQuery(int CompetitionId, int TrackNumber) : IRequest<List<SwimDto>>;

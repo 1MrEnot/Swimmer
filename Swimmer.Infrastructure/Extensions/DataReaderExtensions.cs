@@ -1,4 +1,4 @@
-﻿namespace Swimmer.Infrastructure;
+﻿namespace Swimmer.Infrastructure.Extensions;
 
 using System.Data;
 

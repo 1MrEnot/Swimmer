@@ -4,6 +4,8 @@ using MediatR;
 using Domain.Entities;
 using Services;
 
+public record GetCompetitionQuery(int Id) : IRequest<CompetitionDto>;
+
 public class GetCompetitionQueryHandler : IRequestHandler<GetCompetitionQuery, CompetitionDto>
 {
     private readonly IRepository<Competition> _repository;
@@ -19,5 +21,3 @@ public class GetCompetitionQueryHandler : IRequestHandler<GetCompetitionQuery, C
         return competition.Map();
     }
 }
-
-public record GetCompetitionQuery(int Id) : IRequest<CompetitionDto>;

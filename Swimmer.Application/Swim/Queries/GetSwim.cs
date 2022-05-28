@@ -4,6 +4,8 @@ using Domain.Entities;
 using MediatR;
 using Services;
 
+public record GetSwimQuery(int SwimId) : IRequest<SwimDto>;
+
 public class GetSwimQueryHandler : IRequestHandler<GetSwimQuery, SwimDto>
 {
     private readonly IRepository<Swim> _repository;
@@ -19,5 +21,3 @@ public class GetSwimQueryHandler : IRequestHandler<GetSwimQuery, SwimDto>
         return swim.Map();
     }
 }
-
-public record GetSwimQuery(int SwimId) : IRequest<SwimDto>;

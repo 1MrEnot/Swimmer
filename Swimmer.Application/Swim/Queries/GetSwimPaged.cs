@@ -4,6 +4,8 @@ using Domain.Entities;
 using MediatR;
 using Services;
 
+public record GetSwimPagedQuery(int CompetitionId, int Shift, int Count) : IRequest<List<SwimDto>>;
+
 public class GetSwimPagedQueryHandler : IRequestHandler<GetSwimPagedQuery, List<SwimDto>>
 {
     private readonly IRepository<Competition> _repository;
@@ -20,5 +22,3 @@ public class GetSwimPagedQueryHandler : IRequestHandler<GetSwimPagedQuery, List<
         return requestedSwims.Select(SwimMap.Map).ToList();
     }
 }
-
-public record GetSwimPagedQuery(int CompetitionId, int Shift, int Count) : IRequest<List<SwimDto>>;

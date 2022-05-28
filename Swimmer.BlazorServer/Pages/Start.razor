@@ -5,29 +5,70 @@
 @inject IMediator Mediator;
 @inject SignalRStopwatchClient SignalRStopwatchClient;
 
-<TimerComponent OnStart="StartSwim" @ref="_timer"></TimerComponent>
+@if (CurrentSwim is not null)
+{
+    <h3> Swim: @OneBasedCurrentSwimIndex </h3>
+    <TimerComponent OnStart="StartSwim" @ref="_timer"></TimerComponent>
+    <SwimComponent Swim="CurrentSwim" TrackCount="@CompetitionTrackCount" @ref="_swimTable"></SwimComponent>
+}
+else
+{
+    <p> No swim </p>
+}
 
 @code {
     [Parameter]
     public int CompetitionId { get; set; }
 
-    public int CurrentSwimId { get; set; } = 1;
+    private int OneBasedCurrentSwimIndex => CurrentSwim?.Index + 1 ?? 0;
+
+    private int CompetitionTrackCount { get; set; }
+
+    private SwimDto? CurrentSwim { get; set; }
 
     private TimerComponent _timer = null!;
 
+    private SwimComponent _swimTable = null!;
+    
     protected override async Task OnInitializedAsync()
     {
         SignalRStopwatchClient.OnSwimEnded(OnSwimEnded);
+        SignalRStopwatchClient.OnAthleteFinished(OnAthleteFinished);
         await SignalRStopwatchClient.Start();
+
+        var compTask = Mediator.Send(new GetCompetitionQuery(CompetitionId));
+        CurrentSwim = await Mediator.Send(new GetNextSwimQuery(CompetitionId));
+
+        var competition = await compTask;
+        CompetitionTrackCount = competition.TrackCount;
     }
 
-    private void OnSwimEnded(int competitionId, int swimId)
+    private async void OnSwimEnded(int swimId)
     {
         _timer.Stop();
+        if (CurrentSwim is null) 
+            return;
+
+        var nextZeroBasedSwimIndex = CurrentSwim.Index + 1;
+        var nextSwim = await Mediator.Send(new GetSwimByIndexQuery(CompetitionId, nextZeroBasedSwimIndex));
+        CurrentSwim = nextSwim;
     }
 
+    private void OnAthleteFinished(int swimId, int athleteOnSwimId, TimeSpan time)
+    {
+        if (_swimTable.Swim.Id != swimId)
+            return;
+
+        var finishedAthlete = CurrentSwim?.Athletes.SingleOrDefault(a => a.Id == athleteOnSwimId);
+        if (finishedAthlete is null)
+            return;
+
+        _swimTable.SetAthleteTime(finishedAthlete.Track, time);
+    }
+    
     private void StartSwim(DateTime dateTime)
     {
-        Mediator.Send(new StartSwimCommand(CompetitionId, CurrentSwimId, dateTime));
+        if (CurrentSwim is not null)
+            Mediator.Send(new StartSwimCommand(CurrentSwim.Index, dateTime));
     }
 }

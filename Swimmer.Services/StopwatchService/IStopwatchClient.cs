@@ -2,7 +2,9 @@
 
 public interface IStopwatchClient
 {
-    Task StopwatchStarted(int competitionId, int swimId, DateTime dateTime);
+    Task StopwatchStarted(int swimId, DateTime dateTime);
 
-    Task SwimEnded(int competitionId, int swimId);
+    Task AthleteFinished(int swimId, int athleteOnSwimId, TimeSpan time);
+    
+    Task SwimEnded(int swimId);
 }

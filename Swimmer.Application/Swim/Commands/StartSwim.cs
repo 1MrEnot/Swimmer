@@ -6,6 +6,8 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Services;
 
+public record StartSwimCommand(int SwimId, DateTime DateTime) : IRequest;
+
 public class StartSwimCommandHandler : IRequestHandler<StartSwimCommand>
 {
     private readonly IStopwatchSerivce _stopwatchSerivce;
@@ -22,10 +24,9 @@ public class StartSwimCommandHandler : IRequestHandler<StartSwimCommand>
 
     public async Task<Unit> Handle(StartSwimCommand request, CancellationToken cancellationToken)
     {
-        var serverTime = DateTime.Now;
+        var serverTime = request.DateTime;
 
         var swim = await _repository.Get(request.SwimId);
-
         if (swim.StartTime is not null)
         {
             _logger.LogWarning("Swim {SwimId} already started at {StartTime}! Can not restart at {NewTime}",
@@ -40,12 +41,10 @@ public class StartSwimCommandHandler : IRequestHandler<StartSwimCommand>
 
         await _repository.SaveChanges();
 
-        await _stopwatchSerivce.StartStopwatch(request.CompetitionId, swim.Id, serverTime);
+        await _stopwatchSerivce.StartStopwatch(swim.Id, serverTime);
 
         _logger.LogInformation("Started swim {SwimId} at {StartTime}", swim.Id, swim.StartTime);
 
         return Unit.Value;
     }
 }
-
-public record StartSwimCommand(int CompetitionId, int SwimId, DateTime DateTime) : IRequest;
